@@ -11,4 +11,19 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.list');
     }
+
+    public function admin_home(Request $request)
+    {
+        return view('backend.home.list');
+    }
+
+     public function admin_resources(Request $request)
+    {
+        return view('backend.resources.list');
+    }
+
+     public function admin_incident(Request $request)
+    {
+        return view('backend.incident.list');
+    }
 }
