@@ -45,14 +45,40 @@ class AuthController extends Controller
         }
     }
 
-    // public function logout()
-    // {
-    //     Auth::logout();
-    //     return redirect(url('login'));
-    // }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect(url('login'));
+    }
 
-    // public function forgot(Request $request)
-    // {
-    //     return view('backend.auth.forgot');
-    // }
+    public function forgot(Request $request)
+    {
+        return view('backend.auth.forgot');
+    }
+
+    public function forgot_admin(Request $request)
+    {
+        // Generate a random password
+
+        $random_password = rand(1111,9999);
+
+        // Retrieve the user by email
+        $user = User::where('email', '=', $request->email)->first();
+        if(!empty($user)){
+            // Update the user's password
+            $user->password = Hash::make($random_password);
+            $user->save();
+
+            // Store the random password for further use if needed
+            $user->password_random = $random_password;
+
+            Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+             // Redirect back with success message
+            return redirect()->back()->with('success', 'Password Successfully Sent to Your Email. Pleas Check your Email');
+        }else{
+            // Email not found in the database
+            return redirect()->back()->with('error', 'Email Id Not Found!');
+        }
+    }
 }

@@ -52,7 +52,7 @@
 
       @include('_message')
       <div class="login-logo">
-        <a href="../index2.html"><b>Admin</b>Disaster Dashboard</a>
+        <a href=" url('login')"><b>Admin</b>Disaster Dashboard</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">

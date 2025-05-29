@@ -25,8 +25,9 @@ Route::get ('login', [AuthController::class,'login']);
 
 Route::post ('login_admin', [AuthController::class,'login_admin']);
 
-// Route::get ('logout', [AuthController::class,'logout']);
+Route::get ('logout', [AuthController::class,'logout']);
 
 Route::get ('forgot', [AuthController::class,'forgot']);
 
+Route::post('forgot_admin', [AuthController::class, 'forgot_admin']);
 
