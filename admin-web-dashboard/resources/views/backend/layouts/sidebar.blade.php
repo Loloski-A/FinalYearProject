@@ -21,22 +21,22 @@
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="{{ url('public/backend/dist/assets/img/user2-160x160.jpg')}}"
+                  src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">Lolo Adan</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="{{ url('public/backend/dist/assets/img/user2-160x160.jpg')}}"
+                    src="{{ url('public/backend/dist/assets/img/avatar.png')}}"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
+                    Lolo Adan - Web Dev and Mobile Dev
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>
@@ -55,7 +55,7 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="{{ url('login')}}" class="btn btn-default btn-flat float-end">Sign out</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -82,7 +82,7 @@
             />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE 4</span>
+            <span class="brand-text fw-light">ADMIN</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->
@@ -138,6 +138,17 @@
                   <i class="bi bi-exclamation-triangle-fill"></i>
                   <p>
                     Incidents
+                  </p>
+                </a>
+
+              </li>
+
+             <li class="nav-item menu-open">
+                <a href="{{ url('logout')}}" class="nav-link
+                @if(Request::segment(2) == 'incidents') active @endif">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <p>
+                    Logout
                   </p>
                 </a>
 

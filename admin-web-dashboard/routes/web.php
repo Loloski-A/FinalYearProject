@@ -8,9 +8,8 @@ use App\Http\Controllers\Backend\DashboardController;
 //     return view('welcome');
 // });
 
-Route::get ('login', [AuthController::class,'login']);
 
-Route::get ('forgot', [AuthController::class,'forgot']);
+Route::middleware(['auth'])->group(function (){
 
 Route::get('admin/dashboard', [DashboardController::class,'dashboard']);
 
@@ -19,3 +18,15 @@ Route::get('admin/home', [DashboardController::class,'admin_home']);
 Route::get('admin/resources', [DashboardController::class,'admin_resources']);
 
 Route::get('admin/incident', [DashboardController::class,'admin_incident']);
+
+});
+
+Route::get ('login', [AuthController::class,'login']);
+
+Route::post ('login_admin', [AuthController::class,'login_admin']);
+
+// Route::get ('logout', [AuthController::class,'logout']);
+
+Route::get ('forgot', [AuthController::class,'forgot']);
+
+

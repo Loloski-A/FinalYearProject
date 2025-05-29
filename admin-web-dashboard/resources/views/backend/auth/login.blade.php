@@ -49,6 +49,8 @@
   <!--begin::Body-->
   <body class="login-page bg-body-secondary">
     <div class="login-box">
+
+      @include('_message')
       <div class="login-logo">
         <a href="../index2.html"><b>Admin</b>Disaster Dashboard</a>
       </div>
@@ -56,13 +58,18 @@
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">Sign in to start your session</p>
-          <form action="../index3.html" method="post">
+          <form action="{{ url('login_admin')}}" method="post">
+
+            {{ csrf_field() }}
+
             <div class="input-group mb-3">
-              <input type="email" class="form-control" placeholder="Email" />
+              <input type="email" name="email" value="{{ old('email')}}" class="form-control" placeholder="Email" />
+              <span style="color:red;">{{ $errors->first('email')}}</span>
               <div class="input-group-text"><span class="bi bi-envelope"></span></div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="Password" />
+              <input type="password" name="password" class="form-control" placeholder="Password" />
+              <span style="color:red;">{{ $errors->first('password')}}</span>
               <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
             </div>
             <!--begin::Row-->
