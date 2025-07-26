@@ -58,6 +58,14 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    {{-- ADDED: Tailwind CSS CDN --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Optional: If you want to ensure Inter font is used consistently, though Tailwind's default sans-serif often maps to it */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
   </head>
   <!--end::Head-->
   <!--begin::Body-->

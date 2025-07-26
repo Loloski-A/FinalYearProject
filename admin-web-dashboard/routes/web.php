@@ -11,13 +11,11 @@ use App\Http\Controllers\Backend\DashboardController;
 
 Route::middleware(['auth'])->group(function (){
 
-Route::get('admin/dashboard', [DashboardController::class,'dashboard']);
+  Route::get('admin/dashboard', [DashboardController::class,'dashboard']);
 
-Route::get('admin/home', [DashboardController::class,'admin_home']);
+  Route::get('admin/resources', [DashboardController::class,'admin_resources']);
 
-Route::get('admin/resources', [DashboardController::class,'admin_resources']);
-
-Route::get('admin/incident', [DashboardController::class,'admin_incident']);
+  Route::get('admin/incident', [DashboardController::class,'admin_incident']);
 
 });
 

@@ -10,7 +10,6 @@
               </a>
             </li>
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/dashboard')}}" class="nav-link">Dashboard</a></li>
-            <li class="nav-item d-none d-md-block"><a href="{{ url('admin/home')}}" class="nav-link">Home</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/resources')}}" class="nav-link">Resources</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/incident')}}" class="nav-link">Incident</a></li>
           </ul>
@@ -19,19 +18,22 @@
           <ul class="navbar-nav ms-auto">
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
                 <img
-                  src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
+                    src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
+                    class="user-image rounded-circle shadow me-2"
+                    alt="User Image"
+                    width="32"
+                    height="32"
                 />
                 <span class="d-none d-md-inline">Lolo Adan</span>
-              </a>
+             </a>
+
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="{{ url('public/backend/dist/assets/img/avatar.png')}}"
+                    src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -89,76 +91,60 @@
         </div>
         <!--end::Sidebar Brand-->
         <!--begin::Sidebar Wrapper-->
-        <div class="sidebar-wrapper">
-          <nav class="mt-2">
+      <div class="sidebar-wrapper">
+        <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
+                class="nav sidebar-menu flex-column"
+                data-lte-toggle="treeview"
+                role="menu"
+                data-accordion="false"
             >
-              <li class="nav-item menu-open">
-                <a href="{{ url('admin/dashboard')}}" class="nav-link
-                @if(Request::segment(2) == 'dashboard') active @endif">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                    {{-- <i class="nav-arrow bi bi-chevron-right"></i> --}}
-                  </p>
-                </a>
+                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
+                    <a href="{{ url('admin/dashboard')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
+                    @if(Request::segment(2) == 'dashboard') active @endif">
+                        <i class="nav-icon bi bi-speedometer"></i>
+                        <p>
+                            Dashboard
+                            {{-- <i class="nav-arrow bi bi-chevron-right"></i> --}}
+                        </p>
+                    </a>
+                </li>
 
-              </li>
+                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
+                    <a href="{{ url('admin/resources')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
+                    @if(Request::segment(2) == 'resources') active @endif">
+                        <i class="bi bi-journal-text"></i>
+                        <p>
+                            Resources
+                        </p>
+                    </a>
+                </li>
 
-              <li class="nav-item menu-open">
-                <a href="{{ url('admin/home')}}" class="nav-link
-                @if(Request::segment(2) == 'home') active @endif">
-                  <i class="bi bi-house"></i>
-                  <p>
-                    Home
-                  </p>
-                </a>
+                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
+                    <a href="{{ url('admin/incident')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
+                    @if(Request::segment(2) == 'incident') active @endif">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <p>
+                            Incidents
+                        </p>
+                    </a>
+                </li>
 
-              </li>
-
-             <li class="nav-item menu-open">
-                <a href="{{ url('admin/resources')}}" class="nav-link
-                @if(Request::segment(2) == 'resources') active @endif">
-                  <i class="bi bi-journal-text"></i>
-                  <p>
-                    Resources
-                  </p>
-                </a>
-
-              </li>
-
-              <li class="nav-item menu-open">
-                <a href="{{ url('admin/incident')}}" class="nav-link
-                @if(Request::segment(2) == 'incidents') active @endif">
-                  <i class="bi bi-exclamation-triangle-fill"></i>
-                  <p>
-                    Incidents
-                  </p>
-                </a>
-
-              </li>
-
-             <li class="nav-item menu-open">
-                <a href="{{ url('logout')}}" class="nav-link
-                @if(Request::segment(2) == 'incidents') active @endif">
-                  <i class="bi bi-box-arrow-right"></i>
-                  <p>
-                    Logout
-                  </p>
-                </a>
-
-              </li>
-
-
+                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
+                    <a href="{{ url('logout')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
+                    @if(Request::segment(2) == 'incidents') active @endif">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                </li>
             </ul>
             <!--end::Sidebar Menu-->
-          </nav>
-        </div>
+        </nav>
+     </div>
+
         <!--end::Sidebar Wrapper-->
       </aside>
       <!--end::Sidebar-->
