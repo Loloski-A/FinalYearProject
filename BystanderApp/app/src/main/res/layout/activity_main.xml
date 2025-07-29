@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F0F2F5"
+    tools:context=".MainActivity">
+
+    <!-- Header Section -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, Bystander!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/taglineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcomeText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Your quick action can save lives."
+        android:textColor="#666666"
+        android:textSize="16sp" />
+
+    <!-- Feature Buttons Layout -->
+    <LinearLayout
+        android:id="@+id/featureButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/taglineText"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal">
+
+        <!-- Report Incident Button -->
+        <Button
+            android:id="@+id/reportIncidentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#EF4444"
+            android:padding="15dp"
+            android:text="Report New Incident"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- My Reports Button -->
+        <Button
+            android:id="@+id/myReportsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#007BFF"
+            android:padding="15dp"
+            android:text="My Submitted Reports"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Notifications Button -->
+        <Button
+            android:id="@+id/notificationsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFC107"
+            android:textColor="#333333"
+            android:padding="15dp"
+            android:text="Notifications"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Map Button -->
+        <Button
+            android:id="@+id/mapButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#17A2B8"
+            android:padding="15dp"
+            android:text="View Nearby Incidents Map"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- First Aid Button -->
+        <Button
+            android:id="@+id/firstAidButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#28A745"
+            android:padding="15dp"
+            android:text="First Aid Information"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Livestream Button - REMOVED AS REQUESTED -->
+        <!-- <Button
+            android:id="@+id/livestreamButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#6F42C1"
+            android:padding="15dp"
+            android:text="Livestream Incident"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/> -->
+
+    </LinearLayout>
+
+    <!-- Section for Recent Incidents (Placeholder) - moved below buttons -->
+    <TextView
+        android:id="@+id/recentIncidentsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/featureButtonsLayout"
+        android:layout_marginTop="40dp"
+        android:text="Recent Incidents Near You"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recentIncidentsPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recentIncidentsTitle"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_corners_bg"
+        android:padding="16dp"
+        android:text="No recent incidents to display. Stay safe!"
+        android:textColor="#555555"
+        android:textSize="16sp" />
+
+</RelativeLayout>
