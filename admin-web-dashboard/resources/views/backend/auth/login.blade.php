@@ -42,7 +42,7 @@
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="{{ url('public/backend/dist/css/adminlte.css')}}" />
+    <link rel="stylesheet" href="{{ url('backend/dist/css/adminlte.css')}}" />
     <!--end::Required Plugin(AdminLTE)-->
   </head>
   <!--end::Head-->
@@ -52,7 +52,7 @@
 
       @include('_message')
       <div class="login-logo">
-        <a href=" url('login')"><b>Admin</b>Disaster Dashboard</a>
+        <a href="{{ url('login')}}"><b>Admin</b>Disaster Dashboard</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
@@ -100,10 +100,12 @@
             </a>
           </div> --}}
           <!-- /.social-auth-links -->
-          <p class="mb-1"><a href="{{ url('forgot')}}">I forgot my password</a></p>
-          {{-- <p class="mb-0">
-            <a href="register.html" class="text-center"> Register a new membership </a>
-          </p> --}}
+          <p class="mb-1">
+            <a href="{{ url('forgot')}}" class="btn btn-link p-0">I forgot my password</a>
+          </p>
+          <p class="mb-0">
+            <a href="{{ url('register')}}" class="btn btn-link p-0">Register a new membership</a>
+          </p>
         </div>
         <!-- /.login-card-body -->
       </div>
@@ -118,17 +120,17 @@
     <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      xintegrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      xintegrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="{{ url('public/backend/dist/js/adminlte.js')}}"></script>
+    <script src="{{ url('backend/dist/js/adminlte.js')}}"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

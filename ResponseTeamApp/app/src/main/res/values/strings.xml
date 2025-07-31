@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ResponseTeamApp</string> <!-- Your application name -->
+
+    <!-- Array for team types in registration spinner -->
+    <string-array name="team_types">
+        <item>Fire Brigade</item>
+        <item>Medical</item>
+        <item>Police</item>
+        <item>Rescue Team</item>
+        <item>Emergency Management</item>
+        <item>Other</item>
+    </string-array>
+</resources>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F2F5"
+    tools:context=".TeamIncidentDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incident Details"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_corners_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Incident ID:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#INC001"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fire"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Westlands, Nairobi"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Building fire on 3rd floor, people trapped."
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reported By:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentReporter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reported Time:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024-01-15 14:30"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Status:"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/detailIncidentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Assigned"
+                android:textColor="#007BFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <Button
+            android:id="@+id/markEnRouteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mark En Route"
+            android:backgroundTint="#FFC107"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="15dp"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/markResolvedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mark Resolved"
+            android:backgroundTint="#28A745"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="15dp"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/viewOnMapButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View on Map"
+            android:backgroundTint="#17A2B8"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="15dp"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/backFromDetailButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Dashboard"
+            android:backgroundTint="#6B7280"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="15dp"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+</ScrollView>

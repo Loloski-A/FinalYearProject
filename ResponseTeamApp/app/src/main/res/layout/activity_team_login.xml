@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#F0F2F5"
+    tools:context=".TeamLoginActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team Login"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="40dp" />
+
+    <EditText
+        android:id="@+id/teamEmailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Team Email"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:background="@drawable/rounded_corners_bg"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/teamPasswordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="15dp"
+        android:background="@drawable/rounded_corners_bg"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/teamLoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:backgroundTint="#007BFF"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="15dp"
+        app:cornerRadius="8dp" />
+
+</LinearLayout>

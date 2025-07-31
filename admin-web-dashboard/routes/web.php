@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\DashboardController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::redirect('/', '/login');
 
 
 Route::middleware(['auth'])->group(function (){
@@ -20,12 +21,12 @@ Route::middleware(['auth'])->group(function (){
 });
 
 Route::get ('login', [AuthController::class,'login']);
-
 Route::post ('login_admin', [AuthController::class,'login_admin']);
-
 Route::get ('logout', [AuthController::class,'logout']);
 
 Route::get ('forgot', [AuthController::class,'forgot']);
-
 Route::post('forgot_admin', [AuthController::class, 'forgot_admin']);
 
+// --- New routes for Admin Registration ---
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('register_admin', [AuthController::class, 'register_admin']);

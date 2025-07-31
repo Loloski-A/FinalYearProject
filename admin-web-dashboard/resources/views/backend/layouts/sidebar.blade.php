@@ -20,7 +20,7 @@
             <li class="nav-item dropdown user-menu">
              <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
                 <img
-                    src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
+                    src="{{ url('backend/dist/assets/img/avatar5.png')}}"
                     class="user-image rounded-circle shadow me-2"
                     alt="User Image"
                     width="32"
@@ -33,7 +33,7 @@
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="{{ url('public/backend/dist/assets/img/avatar5.png')}}"
+                    src="{{ url('backend/dist/assets/img/avatar5.png')}}"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -78,7 +78,7 @@
           <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
             <img
-              src="{{ url('public/backend/dist/assets/img/AdminLTELogo.png')}}"
+              src="{{ url('backend/dist/assets/img/AdminLTELogo.png')}}"
               alt="AdminLTE Logo"
               class="brand-image opacity-75 shadow"
             />
