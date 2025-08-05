@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Add Internet and Location permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,42 +16,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BystanderApp"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <!-- LivestreamActivity is excluded as requested -->
-        <!-- <activity
-            android:name=".LivestreamActivity"
-            android:exported="false" /> -->
-        <activity
-            android:name=".FirstAidActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MapActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MyReportsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
+
+        <!-- *** ADDED: Google Maps API Key *** -->
+        <!-- Replace "YOUR_API_KEY" with your actual Google Maps API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY" />
+
+        <!-- Your Activities -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-            <!-- Set LoginActivity as the launcher activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ReportIncidentActivity"
-            android:exported="false" />
-        <!-- Ensure MainActivity is still declared, but without LAUNCHER intent-filter -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".ReportIncidentActivity" android:exported="false" />
+        <activity android:name=".MyReportsActivity" android:exported="false" />
+        <activity android:name=".NotificationsActivity" android:exported="false" />
+        <activity android:name=".MapActivity" android:exported="false" />
+        <activity android:name=".FirstAidActivity" android:exported="false" />
+
     </application>
 
 </manifest>

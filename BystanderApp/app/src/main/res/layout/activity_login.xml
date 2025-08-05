@@ -1,66 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- res/layout/activity_login.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:padding="24dp"
-    android:background="#F0F2F5"
+    android:background="#FFFFFF"
     tools:context=".LoginActivity">
 
     <TextView
+        android:id="@+id/textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Welcome Back"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="40dp" />
+        android:textColor="#1A237E"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/editText_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_height="56dp"
+        android:layout_below="@id/textView_title"
+        android:hint="Email Address"
         android:inputType="textEmailAddress"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/editText_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@id/editText_email"
         android:hint="Password"
         android:inputType="textPassword"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="24dp"/>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/button_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:backgroundTint="#007BFF"
+        android:layout_height="60dp"
+        android:layout_below="@id/editText_password"
+        android:text="Sign In"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="15dp"
-        app:cornerRadius="8dp"
-        android:layout_marginBottom="16dp"/>
+        android:background="@drawable/custom_button_bg"
+        android:layout_marginTop="16dp"/>
 
     <TextView
-        android:id="@+id/registerLink"
+        android:id="@+id/textView_register_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Register here."
-        android:textColor="#007BFF"
+        android:layout_below="@id/button_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Don't have an account? Register"
+        android:textColor="?attr/colorPrimary"
         android:textSize="16sp"
         android:clickable="true"
-        android:focusable="true"
-        android:padding="8dp"/>
+        android:focusable="true" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

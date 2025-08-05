@@ -1,3 +1,5 @@
+// app/build.gradle.kts
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -26,8 +28,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -40,4 +42,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Volley library for network requests
+    implementation("com.android.volley:volley:1.2.1")
+
+    // UPDATED: Added Google Play Services Location dependency
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
+    // *** Google Maps SDK ***
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
 }

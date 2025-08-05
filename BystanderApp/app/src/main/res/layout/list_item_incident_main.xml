@@ -1,0 +1,35 @@
+<!-- res/layout/list_item_incident_main.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/rounded_corners_bg">
+
+    <TextView
+        android:id="@+id/mainIncidentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incident Type"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#333333"/>
+
+    <TextView
+        android:id="@+id/mainIncidentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location Name"
+        android:textSize="14sp"
+        android:textColor="#555555"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/mainIncidentStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: Pending"
+        android:textSize="14sp"
+        android:textColor="#777777"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>

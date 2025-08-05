@@ -1,6 +1,7 @@
 package com.example.responseteamapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -64,7 +65,7 @@ public class TeamIncidentDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // In a real app, update status in backend
                 detailIncidentStatus.setText("En Route");
-                detailIncidentStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark)); // Example color change
+                detailIncidentStatus.setTextColor(ContextCompat.getColor(TeamIncidentDetailActivity.this, android.R.color.holo_orange_dark));// Example color change
                 Toast.makeText(TeamIncidentDetailActivity.this, "Status updated to En Route", Toast.LENGTH_SHORT).show();
             }
         });
@@ -74,7 +75,7 @@ public class TeamIncidentDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // In a real app, update status in backend
                 detailIncidentStatus.setText("Resolved");
-                detailIncidentStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark)); // Example color change
+                detailIncidentStatus.setTextColor(ContextCompat.getColor(TeamIncidentDetailActivity.this, android.R.color.holo_green_dark));// Example color change
                 Toast.makeText(TeamIncidentDetailActivity.this, "Status updated to Resolved", Toast.LENGTH_SHORT).show();
             }
         });

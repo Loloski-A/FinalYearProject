@@ -1,86 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:padding="24dp"
-    android:background="#F0F2F5"
+    android:background="#FFFFFF"
     tools:context=".RegisterActivity">
 
     <TextView
+        android:id="@+id/textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="Create Account"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="40dp" />
+        android:textColor="#1A237E"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
     <EditText
-        android:id="@+id/fullNameEditText"
+        android:id="@+id/editText_full_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@id/textView_title"
         android:hint="Full Name"
         android:inputType="textPersonName"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/registerEmailEditText"
+        android:id="@+id/editText_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_height="56dp"
+        android:layout_below="@id/editText_full_name"
+        android:hint="Email Address"
         android:inputType="textEmailAddress"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/registerPasswordEditText"
+        android:id="@+id/editText_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@id/editText_email"
         android:hint="Password"
         android:inputType="textPassword"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/confirmPasswordEditText"
+        android:id="@+id/editText_password_confirmation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@id/editText_password"
         android:hint="Confirm Password"
         android:inputType="textPassword"
-        android:padding="15dp"
-        android:background="@drawable/rounded_corners_bg"
+        android:background="@drawable/custom_edittext_bg"
+        android:padding="16dp"
         android:layout_marginBottom="24dp"/>
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/button_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_below="@id/editText_password_confirmation"
         android:text="Register"
-        android:backgroundTint="#28A745"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="15dp"
-        app:cornerRadius="8dp"
-        android:layout_marginBottom="16dp"/>
+        android:background="@drawable/custom_button_bg"
+        android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/loginLink"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Login here."
-        android:textColor="#007BFF"
-        android:textSize="16sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="8dp"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>

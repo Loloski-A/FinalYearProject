@@ -34,6 +34,7 @@ android {
 dependencies {
 
     implementation(libs.appcompat)
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)

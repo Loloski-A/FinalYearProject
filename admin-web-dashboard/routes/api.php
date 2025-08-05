@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Import your custom API controllers (you'll create these later)
+// Import your custom API controllers
 use App\Http\Controllers\Api\BystanderController;
 use App\Http\Controllers\Api\ResponseTeamController;
 use App\Http\Controllers\Api\ApiAuthController as ApiAuthController; // Alias to avoid conflict with Backend AuthController
@@ -14,9 +14,9 @@ use App\Http\Controllers\Api\ApiAuthController as ApiAuthController; // Alias to
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| Here is where I can register API routes for my application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| be assigned to the "api" middleware group.
 |
 */
 
@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/my-reports', [BystanderController::class, 'getMyReports']);
             Route::get('/notifications', [BystanderController::class, 'getNotifications']);
             Route::get('/first-aid-guides', [BystanderController::class, 'getFirstAidGuides']);
+            Route::get('/all-incidents', [BystanderController::class, 'getAllIncidents']);
             // Add more bystander-specific routes as needed (e.g., update report, view map)
         // });
     });
