@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
         android:allowBackup="true"
@@ -22,35 +17,32 @@
         android:theme="@style/Theme.ResponseTeamApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".TeamNotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeamMapActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeamRegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".TeamLoginActivity" />
-        <activity android:name=".TeamDashboardActivity" />
-        <activity android:name=".TeamIncidentDetailActivity" />
-        <activity android:name=".TeamProfileActivity" />
-
+        <!-- Add your Google Maps API Key here -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="YOUR_API_KEY" />
+
+        <activity
+            android:name=".TeamLoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting.Team">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".TeamRegisterActivity" android:exported="false" />
+        <activity android:name=".TeamDashboardActivity" android:exported="false" />
+        <activity android:name=".TeamIncidentDetailActivity" android:exported="false" />
+        <activity android:name=".TeamProfileActivity" android:exported="false" />
+        <activity android:name=".TeamMapActivity" android:exported="false" />
+        <activity android:name=".TeamNotificationsActivity" android:exported="false" />
+
+        <!-- MainActivity can be removed if not used, or kept as a splash screen launcher -->
+        <activity android:name=".MainActivity" android:exported="false" />
+
     </application>
 
 </manifest>

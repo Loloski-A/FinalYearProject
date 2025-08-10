@@ -78,13 +78,26 @@ class AuthController extends Controller
         }
     }
 
-    public function register(Request $request)
+      public function register(Request $request)
     {
+        // Before showing the registration form, check if an admin already exists.
+        // $adminExists = User::where('is_role', 1)->exists();
+        // if ($adminExists) {
+        //     // If an admin exists, redirect to the login page with an info message.
+        //     return redirect('login')->with('error', 'Admin registration is disabled. An admin account already exists.');
+        // }
+        // If no admin, show the registration form.
         return view('backend.auth.register');
     }
 
     public function register_admin(Request $request)
     {
+        // --- ADDED LOGIC: Check if an admin already exists ---
+        $adminExists = User::where('is_role', 1)->exists();
+        if ($adminExists) {
+            return redirect('login')->with('error', 'Cannot register a new admin. An account already exists.');
+        }
+
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -98,19 +111,16 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'is_role' => 1, // Set to 1 for admin
                 'status' => 1,  // Set to 1 for active/verified by default for admin registration
-                'email_verified_at' => Carbon::now(), // Set email_verified_at to current timestamp
+                'email_verified_at' => Carbon::now(),
             ]);
 
-            // Log in the newly registered admin immediately
             Auth::login($user);
 
-            // Redirect to the dashboard after successful registration and login
             return redirect('admin/dashboard')->with('success', 'Admin account registered and logged in successfully!');
 
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            // Log the exception for debugging
             Log::error('Admin registration error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred during registration. Please try again.');
         }

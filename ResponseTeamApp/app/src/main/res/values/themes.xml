@@ -1,9 +1,13 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.ResponseTeamApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.ResponseTeamApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.ResponseTeamApp" parent="Base.Theme.ResponseTeamApp" />
+    <!-- Splash Screen Theme -->
+    <style name="Theme.App.Starting.Team" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#1A237E</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo_team</item>
+        <item name="postSplashScreenTheme">@style/Theme.ResponseTeamApp</item>
+    </style>
 </resources>

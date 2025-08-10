@@ -1,6 +1,6 @@
-// app/src/main/java/com/example/bystanderapp/RegisterActivity.java
 package com.example.bystanderapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,13 +27,11 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // UI Elements
     private EditText editTextFullName, editTextEmail, editTextPassword, editTextPasswordConfirmation;
     private Button buttonRegister;
     private ProgressBar progressBar;
+    private TextView textViewLoginLink; // ADDED: TextView for the login link
 
-    // *** FIXED URL ***
-    // Removed the incorrect Markdown formatting from the URL string.
     private static final String REGISTER_URL = "http://10.0.2.2:8000/api/register/bystander";
 
     @Override
@@ -47,8 +46,15 @@ public class RegisterActivity extends AppCompatActivity {
         editTextPasswordConfirmation = findViewById(R.id.editText_password_confirmation);
         buttonRegister = findViewById(R.id.button_register);
         progressBar = findViewById(R.id.progressBar);
+        textViewLoginLink = findViewById(R.id.textView_login_link); // ADDED: Initialize the TextView
 
         buttonRegister.setOnClickListener(v -> registerUser());
+
+        // ADDED: Set listener for the login link
+        textViewLoginLink.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish(); // Finish this activity so the user can't navigate back to it
+        });
     }
 
     private void registerUser() {

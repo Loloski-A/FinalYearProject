@@ -3,19 +3,34 @@ package com.example.responseteamapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeamRegisterActivity extends AppCompatActivity {
 
     private EditText etFullName, etEmail, etPassword, etConfirmPassword;
-    private Spinner spinnerTeamType;
     private Button btnRegister;
     private TextView tvLoginLink;
+    private ProgressBar progressBar;
+
+    private static final String REGISTER_URL = "http://10.0.2.2:8000/api/register/team-member";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,26 +46,17 @@ public class TeamRegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         etConfirmPassword = findViewById(R.id.et_confirm_password);
-        spinnerTeamType = findViewById(R.id.spinner_team_type);
         btnRegister = findViewById(R.id.btn_register);
         tvLoginLink = findViewById(R.id.tv_login_link);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void setupListeners() {
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                attemptRegistration();
-            }
-        });
+        btnRegister.setOnClickListener(v -> attemptRegistration());
 
-        tvLoginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TeamRegisterActivity.this, TeamLoginActivity.class);
-                startActivity(intent);
-                finish(); // Finish current activity to prevent going back
-            }
+        tvLoginLink.setOnClickListener(v -> {
+            startActivity(new Intent(TeamRegisterActivity.this, TeamLoginActivity.class));
+            finish();
         });
     }
 
@@ -59,25 +65,81 @@ public class TeamRegisterActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
-        String teamType = spinnerTeamType.getSelectedItem().toString();
 
-        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+        if (!validateInput(fullName, email, password, confirmPassword)) {
+            return;
+        }
+
+        performRegistration(fullName, email, password);
+    }
+
+    private boolean validateInput(String name, String email, String pass, String confirmPass) {
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
             Toast.makeText(this, "Please fill all fields.", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
-
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_SHORT).show();
-            return;
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Please enter a valid email");
+            return false;
         }
+        if (!pass.equals(confirmPass)) {
+            etConfirmPassword.setError("Passwords do not match");
+            return false;
+        }
+        if (pass.length() < 8) {
+            etPassword.setError("Password must be at least 8 characters");
+            return false;
+        }
+        return true;
+    }
 
-        // TODO: Implement actual registration logic (e.g., API call to your Laravel backend)
-        // For demonstration, a simple toast message
-        Toast.makeText(this, "Registering " + fullName + " (" + teamType + ") with email: " + email, Toast.LENGTH_LONG).show();
+    private void performRegistration(String fullName, String email, String password) {
+        progressBar.setVisibility(View.VISIBLE);
+        btnRegister.setEnabled(false);
 
-        // On successful registration, navigate to login or dashboard
-        Intent intent = new Intent(TeamRegisterActivity.this, TeamLoginActivity.class);
-        startActivity(intent);
-        finish();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                response -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnRegister.setEnabled(true);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                        // On success, go to the login screen
+                        startActivity(new Intent(this, TeamLoginActivity.class));
+                        finish();
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Registration successful, but response was unclear.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnRegister.setEnabled(true);
+                    String errorMessage = "Registration failed. Please try again.";
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                            JSONObject jsonObject = new JSONObject(body);
+                            if (jsonObject.has("message")) {
+                                errorMessage = jsonObject.getString("message");
+                            }
+                        } catch (Exception e) {
+                            // Parsing error
+                        }
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", fullName);
+                params.put("email", email);
+                params.put("password", password);
+                params.put("password_confirmation", password);
+                return params;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 }

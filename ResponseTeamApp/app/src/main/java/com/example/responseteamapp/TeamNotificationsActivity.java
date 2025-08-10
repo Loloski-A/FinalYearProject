@@ -1,20 +1,31 @@
 package com.example.responseteamapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeamNotificationsActivity extends AppCompatActivity {
 
     private ListView lvNotifications;
     private TextView tvNoNotifications;
-    private ArrayAdapter<String> adapter;
-    private List<String> notificationsList;
+    private NotificationAdapter adapter;
+    private ArrayList<Notification> notificationsList = new ArrayList<>();
+
+    private static final String NOTIFICATIONS_URL = "http://10.0.2.2:8000/api/team/notifications";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +35,68 @@ public class TeamNotificationsActivity extends AppCompatActivity {
         lvNotifications = findViewById(R.id.lv_notifications);
         tvNoNotifications = findViewById(R.id.tv_no_notifications);
 
-        notificationsList = new ArrayList<>();
-        // Example notifications (replace with data fetched from your backend)
-        notificationsList.add("New Incident Assigned: Fire at Central Market (High Severity)");
-        notificationsList.add("Incident #1234 Status Update: En Route");
-        notificationsList.add("Admin Alert: Mandatory Team Meeting on Friday at 10 AM.");
-        notificationsList.add("Incident #5678 Resolved: Medical Emergency at Park Street.");
-
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notificationsList);
+        // Set up the custom adapter
+        adapter = new NotificationAdapter(this, notificationsList);
         lvNotifications.setAdapter(adapter);
 
-        if (notificationsList.isEmpty()) {
-            tvNoNotifications.setVisibility(View.VISIBLE);
-            lvNotifications.setVisibility(View.GONE);
-        } else {
-            tvNoNotifications.setVisibility(View.GONE);
-            lvNotifications.setVisibility(View.VISIBLE);
+        // Fetch notifications from the backend
+        fetchNotifications();
+    }
+
+    private void fetchNotifications() {
+        SharedPreferences sharedPreferences = getSharedPreferences(TeamLoginActivity.SHARED_PREFS, MODE_PRIVATE);
+        final String token = sharedPreferences.getString(TeamLoginActivity.AUTH_TOKEN_KEY, null);
+
+        if (token == null) {
+            Toast.makeText(this, "Authentication Error.", Toast.LENGTH_LONG).show();
+            return;
         }
 
-        // You might want to implement a refresh mechanism or pull new notifications from your API
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, NOTIFICATIONS_URL,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray notificationsArray = jsonObject.getJSONArray("notifications");
+                        notificationsList.clear();
+
+                        if (notificationsArray.length() == 0) {
+                            tvNoNotifications.setVisibility(View.VISIBLE);
+                            lvNotifications.setVisibility(View.GONE);
+                        } else {
+                            for (int i = 0; i < notificationsArray.length(); i++) {
+                                JSONObject notificationObj = notificationsArray.getJSONObject(i);
+                                notificationsList.add(new Notification(
+                                        notificationObj.getString("title"),
+                                        notificationObj.getString("message")
+                                ));
+                            }
+                            adapter.notifyDataSetChanged();
+                            tvNoNotifications.setVisibility(View.GONE);
+                            lvNotifications.setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Error parsing notifications.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    String errorMessage = "Failed to fetch notifications.";
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                            errorMessage = new JSONObject(body).getString("message");
+                        } catch (Exception e) {}
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 }

@@ -1,82 +1,105 @@
+<!-- res/layout/activity_register.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF"
+    android:background="@drawable/auth_background"
     tools:context=".RegisterActivity">
 
-    <TextView
-        android:id="@+id/textView_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Account"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#1A237E"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
-
-    <EditText
-        android:id="@+id/editText_full_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/textView_title"
-        android:hint="Full Name"
-        android:inputType="textPersonName"
-        android:background="@drawable/custom_edittext_bg"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
-
-    <EditText
-        android:id="@+id/editText_email"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/editText_full_name"
-        android:hint="Email Address"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/custom_edittext_bg"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
-
-    <EditText
-        android:id="@+id/editText_password"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/editText_email"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_edittext_bg"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
-
-    <EditText
-        android:id="@+id/editText_password_confirmation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/editText_password"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_edittext_bg"
-        android:padding="16dp"
-        android:layout_marginBottom="24dp"/>
-
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/editText_password_confirmation"
-        android:text="Register"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:background="@drawable/custom_button_bg"
-        android:layout_marginTop="16dp"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="#1A237E" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:text="Create Account"
+            android:textColor="#1A237E"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_background"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_background"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/editText_password"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_background"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/editText_password_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/edittext_background"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_primary"
+            android:text="Register"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- ADDED: Link to Login Page -->
+        <TextView
+            android:id="@+id/textView_login_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Already have an account? Sign In"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </LinearLayout>
 </RelativeLayout>

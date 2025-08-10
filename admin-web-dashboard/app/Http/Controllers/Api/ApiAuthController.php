@@ -132,12 +132,11 @@ class ApiAuthController extends Controller
     public function registerTeamMember(Request $request)
     {
         try {
+            // UPDATED: Removed the 'team_type' validation rule
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
-                'team_type' => 'required|string|max:255', // e.g., Fire Brigade, Medical
-                // You might need a 'team_id' here if members are assigned to existing teams during registration
             ]);
 
             $user = User::create([
@@ -148,10 +147,6 @@ class ApiAuthController extends Controller
                 'status' => 1,  // Active by default upon registration
                 'email_verified_at' => now(), // Mark as verified immediately
             ]);
-
-            // TODO: Link this user to a specific 'response_teams' entry via the 'team_members' table.
-            // This might involve fetching an existing team_id or creating a new team if it's the first member.
-            // For now, we'll just create the user.
 
             // Generate token for immediate login after registration
             $token = $user->createToken($request->email . '_AuthToken')->plainTextToken;

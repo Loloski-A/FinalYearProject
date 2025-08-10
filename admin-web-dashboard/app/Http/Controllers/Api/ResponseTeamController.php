@@ -30,16 +30,18 @@ class ResponseTeamController extends Controller
             return response()->json(['message' => 'User is not assigned to any team.'], 404);
         }
 
-        // Get incidents assigned to this team
+        // UPDATED: Changed the eager loading to include the incident's reporter.
+        // This is called "nested eager loading".
         $assignedIncidents = IncidentAssignment::where('team_id', $teamMember->team_id)
-                                            ->with('incident') // Eager load incident details
+                                            ->with('incident.reporter') // This now loads the reporter as well
                                             ->orderBy('assigned_at', 'desc')
                                             ->get();
 
         return response()->json([
             'message' => 'Assigned incidents fetched successfully',
             'incidents' => $assignedIncidents->map(function($assignment) {
-                return $assignment->incident; // Return just the incident details
+                // Now, $assignment->incident will have the 'reporter' object attached
+                return $assignment->incident;
             })
         ], 200);
     }
@@ -72,7 +74,7 @@ class ResponseTeamController extends Controller
         ], 200);
     }
 
-    /**
+      /**
      * Update the status of an assigned incident.
      * @param Request $request
      * @param int $id The incident ID
@@ -91,33 +93,47 @@ class ResponseTeamController extends Controller
                 return response()->json(['message' => 'Incident not found'], 404);
             }
 
-            // Optional: Verify that the requesting team member is authorized to update this incident
-            // $user = $request->user();
-            // $teamMember = TeamMember::where('user_id', $user->id)->first();
-            // $assignment = IncidentAssignment::where('incident_id', $id)->where('team_id', $teamMember->team_id)->first();
-            // if (!$assignment) {
-            //     return response()->json(['message' => 'Unauthorized to update this incident'], 403);
-            // }
-
+            // --- DATABASE AND STATUS UPDATE ---
+            // Update the incident's main status
             $incident->status = $request->status;
             if ($request->status === 'Resolved' || $request->status === 'Completed') {
                 $incident->resolved_at = now();
             }
             $incident->save();
 
-            // Update the status in the incident_assignments table as well
-            $assignment = IncidentAssignment::where('incident_id', $id)
-                                            ->where('team_id', $request->user()->teamMember->team_id) // Assuming teamMember relation is set up
-                                            ->first();
-            if ($assignment) {
-                $assignment->status = $request->status;
-                $assignment->notes = $request->notes ?? $assignment->notes;
-                $assignment->save();
+            // Also update the status in the specific assignment record
+            $user = $request->user();
+            $teamMember = TeamMember::where('user_id', $user->id)->first();
+            if ($teamMember) {
+                $assignment = IncidentAssignment::where('incident_id', $id)
+                                                ->where('team_id', $teamMember->team_id)
+                                                ->first();
+                if ($assignment) {
+                    $assignment->status = $request->status;
+                    $assignment->notes = $request->notes ?? $assignment->notes;
+                    $assignment->save();
+                }
             }
+
+            // --- DYNAMIC NOTIFICATION LOGIC FOR BYSTANDER ---
+            // 1. Delete any previous status update notifications for this incident to avoid clutter.
+            Notification::where('incident_id', $incident->id)
+                        ->where('user_id', $incident->user_id) // Ensure we only delete for the original reporter
+                        ->where('type', 'Status Update') // Only delete status updates, not the initial "Help is on the way!" message
+                        ->delete();
+
+            // 2. Create a new, up-to-date notification for the bystander.
+            Notification::create([
+                'user_id' => $incident->user_id, // Target the bystander who reported the incident
+                'incident_id' => $incident->id,
+                'title' => 'Incident Status Updated',
+                'message' => 'The status of the incident you reported ("' . $incident->incident_type . '") has been updated to: ' . $request->status . '.',
+                'type' => 'Status Update',
+            ]);
 
 
             return response()->json([
-                'message' => 'Incident status updated successfully',
+                'message' => 'Incident status updated successfully and bystander notified.',
                 'incident' => $incident
             ], 200);
 
@@ -134,7 +150,7 @@ class ResponseTeamController extends Controller
         }
     }
 
-    /**
+     /**
      * Get the profile of the authenticated response team's team.
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -142,15 +158,25 @@ class ResponseTeamController extends Controller
     public function getTeamProfile(Request $request)
     {
         $user = $request->user();
-        $teamMember = TeamMember::where('user_id', $user->id)->with('team')->first(); // Eager load the team relationship
 
-        if (!$teamMember || !$teamMember->team) {
-            return response()->json(['message' => 'Team profile not found or user not assigned to a team.'], 404);
+        // Find the TeamMember record for the currently authenticated user
+        $teamMember = TeamMember::where('user_id', $user->id)->first();
+
+        if (!$teamMember) {
+            return response()->json(['message' => 'User is not assigned to any team.'], 404);
+        }
+
+        // UPDATED: Fetch the team and use withCount to get the number of members.
+        // Laravel will automatically create a 'members_count' attribute.
+        $teamProfile = ResponseTeam::withCount('members')->find($teamMember->team_id);
+
+        if (!$teamProfile) {
+            return response()->json(['message' => 'Team profile not found.'], 404);
         }
 
         return response()->json([
             'message' => 'Team profile fetched successfully',
-            'team_profile' => $teamMember->team
+            'team_profile' => $teamProfile
         ], 200);
     }
 
@@ -168,8 +194,10 @@ class ResponseTeamController extends Controller
             return response()->json(['message' => 'User is not assigned to any team.'], 404);
         }
 
+        // --- FIXED LOGIC ---
+        // This query now ONLY fetches notifications where the team_id
+        // explicitly matches the logged-in user's team ID.
         $notifications = Notification::where('team_id', $teamMember->team_id)
-                                    ->orWhereNull('team_id') // For general broadcasts
                                     ->orderBy('sent_at', 'desc')
                                     ->get();
 
@@ -178,6 +206,5 @@ class ResponseTeamController extends Controller
             'notifications' => $notifications
         ], 200);
     }
-
     // You can add more methods here as needed, e.g., updateTeamMemberStatus, manageTeamResources, etc.
 }

@@ -1,6 +1,8 @@
 package com.example.bystanderapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +14,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -26,9 +27,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView welcomeText, noRecentIncidentsText;
+    private Button logoutButton;
+    private CardView cardReportIncident, cardMyReports, cardNotifications, cardViewMap, cardFirstAid;
     private ListView recentIncidentsListView;
-    private TextView noRecentIncidentsText;
-    private TextView welcomeText; // Added TextView for the welcome message
     private IncidentMainAdapter adapter;
     private ArrayList<Incident> recentIncidentsList = new ArrayList<>();
 
@@ -40,53 +42,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize UI
-        recentIncidentsListView = findViewById(R.id.recentIncidentsListView);
-        noRecentIncidentsText = findViewById(R.id.noRecentIncidentsText);
-        welcomeText = findViewById(R.id.welcomeText); // Initialize the welcome TextView
-        setupFeatureButtons();
-
-        // --- UPDATED: Set the welcome message ---
-        setWelcomeMessage();
-
-        // Setup adapter for the incident list
-        adapter = new IncidentMainAdapter(this, recentIncidentsList);
-        recentIncidentsListView.setAdapter(adapter);
-
-        // Fetch recent incidents from the server
+        initViews();
+        setupWelcomeMessage();
+        setupListeners();
         fetchRecentIncidents();
     }
 
-    private void setWelcomeMessage() {
+    private void initViews() {
+        welcomeText = findViewById(R.id.welcomeText);
+        logoutButton = findViewById(R.id.logoutButton);
+        cardReportIncident = findViewById(R.id.card_report_incident);
+        cardMyReports = findViewById(R.id.card_my_reports);
+        cardNotifications = findViewById(R.id.card_notifications);
+        cardViewMap = findViewById(R.id.card_view_map);
+        cardFirstAid = findViewById(R.id.card_first_aid);
+        recentIncidentsListView = findViewById(R.id.recentIncidentsListView);
+        noRecentIncidentsText = findViewById(R.id.noRecentIncidentsText);
+
+        adapter = new IncidentMainAdapter(this, recentIncidentsList);
+        recentIncidentsListView.setAdapter(adapter);
+    }
+
+    private void setupWelcomeMessage() {
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREFS, MODE_PRIVATE);
-        String userName = sharedPreferences.getString(LoginActivity.USER_NAME_KEY, "Bystander"); // Default to "Bystander" if name not found
+        String userName = sharedPreferences.getString(LoginActivity.USER_NAME_KEY, "Bystander");
         welcomeText.setText("Welcome, " + userName + "!");
     }
 
-    private void setupFeatureButtons() {
-        Button reportIncidentButton = findViewById(R.id.reportIncidentButton);
-        Button myReportsButton = findViewById(R.id.myReportsButton);
-        Button notificationsButton = findViewById(R.id.notificationsButton);
-        Button mapButton = findViewById(R.id.mapButton);
-        Button firstAidButton = findViewById(R.id.firstAidButton);
-        Button logoutButton = findViewById(R.id.logoutButton);
-
-        reportIncidentButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ReportIncidentActivity.class)));
-        myReportsButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MyReportsActivity.class)));
-        notificationsButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NotificationsActivity.class)));
-        mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
-        firstAidButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FirstAidActivity.class)));
-        logoutButton.setOnClickListener(v -> logoutUser());
+    private void setupListeners() {
+        cardReportIncident.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ReportIncidentActivity.class)));
+        cardMyReports.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MyReportsActivity.class)));
+        cardNotifications.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NotificationsActivity.class)));
+        cardViewMap.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
+        cardFirstAid.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FirstAidActivity.class)));
+        logoutButton.setOnClickListener(v -> logout());
     }
 
     private void fetchRecentIncidents() {
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREFS, MODE_PRIVATE);
         final String token = sharedPreferences.getString(LoginActivity.AUTH_TOKEN_KEY, null);
-
-        if (token == null) {
-            // Handle not logged in state
-            return;
-        }
+        if (token == null) return;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ALL_INCIDENTS_URL,
                 response -> {
@@ -96,50 +91,48 @@ public class MainActivity extends AppCompatActivity {
                         recentIncidentsList.clear();
 
                         if (incidentsArray.length() == 0) {
-                            recentIncidentsListView.setVisibility(View.GONE);
                             noRecentIncidentsText.setVisibility(View.VISIBLE);
+                            recentIncidentsListView.setVisibility(View.GONE);
                         } else {
                             for (int i = 0; i < incidentsArray.length(); i++) {
-                                JSONObject incidentObject = incidentsArray.getJSONObject(i);
-                                String type = incidentObject.getString("incident_type");
-                                String status = incidentObject.getString("status");
-                                String locationName = incidentObject.optString("location_name", "N/A");
-                                String reportedAt = incidentObject.getString("reported_at");
-                                String description = incidentObject.getString("description");
-                                String severity = incidentObject.getString("severity");
-
-                                recentIncidentsList.add(new Incident(type, status, reportedAt, locationName, description, severity));
+                                JSONObject incidentObj = incidentsArray.getJSONObject(i);
+                                recentIncidentsList.add(new Incident(
+                                        incidentObj.getString("incident_type"),
+                                        incidentObj.getString("status"),
+                                        incidentObj.getString("reported_at"),
+                                        incidentObj.optString("location_name", "N/A"),
+                                        incidentObj.getString("description"),
+                                        incidentObj.getString("severity")
+                                ));
                             }
                             adapter.notifyDataSetChanged();
-                            recentIncidentsListView.setVisibility(View.VISIBLE);
                             noRecentIncidentsText.setVisibility(View.GONE);
+                            recentIncidentsListView.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, "Error parsing recent incidents.", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> {
-                    Toast.makeText(this, "Failed to load recent incidents.", Toast.LENGTH_SHORT).show();
-                }) {
+                error -> Toast.makeText(this, "Failed to fetch recent incidents.", Toast.LENGTH_SHORT).show()) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
-                headers.put("Accept", "application/json");
                 return headers;
             }
         };
-
         Volley.newRequestQueue(this).add(stringRequest);
     }
 
-    private void logoutUser() {
+    private void logout() {
+        // Make the API call to invalidate the token on the server
         performLogoutRequest();
+
+        // Clear local data and navigate to the login screen
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(LoginActivity.AUTH_TOKEN_KEY);
-        editor.remove(LoginActivity.USER_NAME_KEY); // Also remove the user's name on logout
-        editor.apply();
+        editor.clear().apply(); // Clears all data from shared preferences
+
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -150,15 +143,21 @@ public class MainActivity extends AppCompatActivity {
     private void performLogoutRequest() {
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREFS, MODE_PRIVATE);
         final String token = sharedPreferences.getString(LoginActivity.AUTH_TOKEN_KEY, null);
-        if (token == null) return;
+
+        if (token == null) return; // No token, no need to call the server
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGOUT_URL,
-                response -> {},
-                error -> {}) {
+                response -> {
+                    // Token successfully invalidated on the server
+                },
+                error -> {
+                    // An error occurred, but we will still log the user out locally
+                }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
+                headers.put("Accept", "application/json");
                 return headers;
             }
         };

@@ -12,9 +12,10 @@
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/dashboard')}}" class="nav-link">Dashboard</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/resources')}}" class="nav-link">Resources</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ url('admin/incident')}}" class="nav-link">Incident</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{ url('admin/teams')}}" class="nav-link">Team Management</a></li>
           </ul>
           <!--end::Start Navbar Links-->
-          <!--begin::End Navbar Links-->
+           <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
@@ -26,7 +27,10 @@
                     width="32"
                     height="32"
                 />
-                <span class="d-none d-md-inline">Lolo Adan</span>
+                {{-- UPDATED: Dynamically display the authenticated admin's name --}}
+                @if(Auth::check())
+                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                @endif
              </a>
 
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
@@ -38,8 +42,11 @@
                     alt="User Image"
                   />
                   <p>
-                    Lolo Adan - Web Dev and Mobile Dev
-                    <small>Member since Nov. 2023</small>
+                    {{-- UPDATED: Dynamically display the admin's name and registration date --}}
+                    @if(Auth::check())
+                        {{ Auth::user()->name }} - Web Dev and Mobile Dev
+                        <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                    @endif
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -57,7 +64,8 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="{{ url('login')}}" class="btn btn-default btn-flat float-end">Sign out</a>
+                  {{-- UPDATED: Changed URL to the correct logout route --}}
+                  <a href="{{ url('logout')}}" class="btn btn-default btn-flat float-end">Sign out</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -112,21 +120,28 @@
                 </li>
 
                 <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
-                    <a href="{{ url('admin/resources')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
-                    @if(Request::segment(2) == 'resources') active @endif">
-                        <i class="bi bi-journal-text"></i>
-                        <p>
-                            Resources
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
                     <a href="{{ url('admin/incident')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
                     @if(Request::segment(2) == 'incident') active @endif">
                         <i class="bi bi-exclamation-triangle-fill"></i>
                         <p>
                             Incidents
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-open mb-4">
+                    <a href="{{ route('admin.teams') }}" class="nav-link py-3 @if(Request::segment(2) == 'teams') active @endif">
+                        <i class="bi bi-people-fill"></i>
+                        <p>Team Management</p>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-open mb-4"> {{-- Increased mb-2 to mb-4 for more space --}}
+                    <a href="{{ url('admin/resources')}}" class="nav-link py-3 {{-- Added py-3 to enlarge --}}
+                    @if(Request::segment(2) == 'resources') active @endif">
+                        <i class="bi bi-journal-text"></i>
+                        <p>
+                            Resources
                         </p>
                     </a>
                 </li>

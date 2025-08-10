@@ -53,7 +53,7 @@
                     <h3>{{ $activeResponseIncidents }}</h3>
                     <p>Active Response</p>
                   </div>
-                  <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2c-.347 0-.693.076-1.013.226C9.914 2.658 9.074 3.327 8.36 4.14l-.845-.845c-.293-.293-.768-.293-1.06 0l-.707.707c-.293.293-.293.768 0 1.06l.845.845c-.813.714-1.482 1.554-1.914 2.527C2.076 11.307 2 11.653 2 12c0 .347.076.693.226 1.013.432.973 1.101 1.813 1.914 2.527l-.845.845c-.293-.293-.293.768 0 1.06l.707.707c.293.293.768.293 1.06 0l.845-.845c.714.813 1.554 1.482 2.527 1.914.32.15.666.226 1.013.226s.693-.076 1.013-.226c.973-.432 1.813-1.101 2.527-1.914l.845.845c.293.293.768.293 1.06 0l.707-.707c.293-.293.293-.768 0-1.06l-.845-.845c.813-.714 1.482-1.554 1.914-2.527.15-.32.226-.666.226-1.013s-.076-.693-.226-1.013c-.432-.973-1.101-1.813-1.914-2.527l.845-.845c.293-.293-.293-.768 0-1.06l-.707-.707c-.293-.293-.768-.293-1.06 0l-.845.845C14.074 3.327 13.234 2.658 12.261 2.226A1.5 1.5 0 0012 2zm0 6c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4z"/></svg>
+                  <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2c-.347 0-.693.076-1.013.226C9.914 2.658 9.074 3.327 8.36 4.14l-.845-.845c-.293-.293-.768-.293-1.06 0l-.707.707c-.293.293-.293.768 0 1.06l.845.845c-.813.714-1.482 1.554-1.914 2.527C2.076 11.307 2 11.653 2 12c0 .347.076.693.226 1.013.432.973 1.101 1.813 1.914 2.527l-.845.845c-.293.293.293.768 0 1.06l.707.707c.293.293.768.293 1.06 0l.845-.845c.714.813 1.554 1.482 2.527 1.914.32.15.666.226 1.013.226s.693-.076 1.013-.226c.973-.432 1.813-1.101 2.527-1.914l.845.845c.293.293.768.293 1.06 0l.707-.707c-.293-.293-.768-.293-1.06 0l-.845.845C14.074 3.327 13.234 2.658 12.261 2.226A1.5 1.5 0 0012 2zm0 6c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4z"/></svg>
                 </div>
               </div>
                <div class="col-lg-3 col-6">
@@ -89,7 +89,11 @@
                                         </div>
                                     </div>
                                     <div class="flex-shrink-0 md:self-center">
-                                        <button class="px-4 py-2 rounded-md text-white font-medium shadow-sm bg-red-500 hover:bg-red-600">Assign Team</button>
+                                        <button class="assign-team-button px-4 py-2 rounded-md text-white font-medium shadow-sm bg-red-500 hover:bg-red-600"
+                                                data-incident-id="{{ $incident->id }}"
+                                                data-incident-title="{{ $incident->incident_type }}">
+                                            Assign Team
+                                        </button>
                                     </div>
                                 </div>
                             @empty
@@ -133,6 +137,29 @@
           </div>
         </div>
       </main>
+
+{{-- Assign Team Modal --}}
+<div id="assign-team-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Assign Team to <span id="incident-title-assign" class="font-semibold"></span></h3>
+        <form id="assign-team-form" action="" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label for="team-select" class="block text-sm font-medium text-gray-700 mb-1">Select Team</label>
+                <select id="team-select" name="team_id" class="form-select w-full p-2 border border-gray-300 rounded-md" required>
+                    <option value="">Select a team</option>
+                    @foreach ($responseTeams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button type="button" id="cancel-assign-modal" class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600">Assign</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -158,6 +185,27 @@
             const icon = iconMap[incident.status] || L.icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
             L.marker([incident.lat, incident.lng], {icon: icon}).addTo(map)
                 .bindPopup(`<b>${incident.type} (${incident.severity})</b><br>${incident.status}`);
+        });
+
+         // --- Assign Team Modal Logic ---
+        const assignModal = document.getElementById('assign-team-modal');
+        const assignForm = document.getElementById('assign-team-form');
+        const incidentTitleSpan = document.getElementById('incident-title-assign');
+        const cancelAssignButton = document.getElementById('cancel-assign-modal');
+
+        document.querySelectorAll('.assign-team-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const incidentId = this.dataset.incidentId;
+                const incidentTitle = this.dataset.incidentTitle;
+
+                assignForm.action = `/admin/incident/${incidentId}/assign`;
+                incidentTitleSpan.textContent = incidentTitle;
+                assignModal.classList.remove('hidden');
+            });
+        });
+
+        cancelAssignButton.addEventListener('click', () => {
+            assignModal.classList.add('hidden');
         });
     });
 </script>

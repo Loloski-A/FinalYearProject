@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Handle the splash screen transition.
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
 
         if (isLoggedIn()) {

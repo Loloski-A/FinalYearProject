@@ -51,4 +51,6 @@ dependencies {
 
     // *** Google Maps SDK ***
     implementation("com.google.android.gms:play-services-maps:19.2.0")
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

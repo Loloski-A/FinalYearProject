@@ -2,12 +2,24 @@ package com.example.responseteamapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeamIncidentDetailActivity extends AppCompatActivity {
 
@@ -15,13 +27,30 @@ public class TeamIncidentDetailActivity extends AppCompatActivity {
             detailIncidentDescription, detailIncidentReporter, detailIncidentTime,
             detailIncidentStatus;
     private Button markEnRouteButton, markResolvedButton, viewOnMapButton, backFromDetailButton;
+    private Incident incident;
+
+    private static final String UPDATE_STATUS_URL = "http://10.0.2.2:8000/api/team/incident/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_incident_detail);
 
-        // Initialize UI elements
+        initViews();
+
+        incident = (Incident) getIntent().getSerializableExtra("incident");
+
+        if (incident != null) {
+            populateIncidentDetails();
+        } else {
+            Toast.makeText(this, "Could not load incident details.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        setupButtonListeners();
+    }
+
+    private void initViews() {
         detailIncidentId = findViewById(R.id.detailIncidentId);
         detailIncidentType = findViewById(R.id.detailIncidentType);
         detailIncidentLocation = findViewById(R.id.detailIncidentLocation);
@@ -34,74 +63,96 @@ public class TeamIncidentDetailActivity extends AppCompatActivity {
         markResolvedButton = findViewById(R.id.markResolvedButton);
         viewOnMapButton = findViewById(R.id.viewOnMapButton);
         backFromDetailButton = findViewById(R.id.backFromDetailButton);
+    }
 
-        // Get incident data passed from previous activity (TeamDashboardActivity)
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("incident_info")) {
-            String incidentInfo = intent.getStringExtra("incident_info");
-            // In a real app, you'd parse a full Incident object here
-            // For demo, we'll just display the string and simulate details
-            detailIncidentId.setText("#INC" + (int)(Math.random() * 1000)); // Random ID for demo
-            detailIncidentType.setText(incidentInfo.contains("Fire") ? "Fire" : (incidentInfo.contains("Accident") ? "Accident" : "Unknown"));
-            detailIncidentLocation.setText(incidentInfo.contains("Westlands") ? "Westlands, Nairobi" : (incidentInfo.contains("Thika Road") ? "Thika Road" : "Unknown Location"));
-            detailIncidentDescription.setText("Detailed description for " + detailIncidentType.getText() + " at " + detailIncidentLocation.getText());
-            detailIncidentReporter.setText("Bystander App User");
-            detailIncidentTime.setText("2024-07-29 10:00");
-            detailIncidentStatus.setText(incidentInfo.contains("Assigned") ? "Assigned" : (incidentInfo.contains("En Route") ? "En Route" : "Pending"));
-        } else {
-            // Fallback if no data is passed
-            detailIncidentId.setText("#N/A");
-            detailIncidentType.setText("No Incident Selected");
-            detailIncidentLocation.setText("N/A");
-            detailIncidentDescription.setText("Please select an incident from the dashboard.");
-            detailIncidentReporter.setText("N/A");
-            detailIncidentTime.setText("N/A");
-            detailIncidentStatus.setText("Unknown");
+    private void populateIncidentDetails() {
+        detailIncidentId.setText("#INC" + incident.getId());
+        detailIncidentType.setText(incident.getIncidentType());
+        detailIncidentLocation.setText(incident.getLocationName());
+        detailIncidentDescription.setText(incident.getDescription());
+        detailIncidentReporter.setText(incident.getReporterName()); // UPDATED: Set the reporter's name
+        detailIncidentTime.setText(incident.getReportedAt());
+        updateStatusUI(incident.getStatus());
+    }
+
+    // ... setupButtonListeners and other methods remain the same ...
+    private void setupButtonListeners() {
+        markEnRouteButton.setOnClickListener(v -> updateIncidentStatus("En Route"));
+        markResolvedButton.setOnClickListener(v -> updateIncidentStatus("Resolved"));
+
+        viewOnMapButton.setOnClickListener(v -> {
+            Intent mapIntent = new Intent(TeamIncidentDetailActivity.this, TeamMapActivity.class);
+            mapIntent.putExtra("incident_lat", incident.getLatitude());
+            mapIntent.putExtra("incident_lng", incident.getLongitude());
+            mapIntent.putExtra("incident_location_name", incident.getLocationName());
+            startActivity(mapIntent);
+        });
+
+        backFromDetailButton.setOnClickListener(v -> finish());
+    }
+
+    private void updateIncidentStatus(String newStatus) {
+        SharedPreferences sharedPreferences = getSharedPreferences(TeamLoginActivity.SHARED_PREFS, MODE_PRIVATE);
+        final String token = sharedPreferences.getString(TeamLoginActivity.AUTH_TOKEN_KEY, null);
+
+        if (token == null) {
+            Toast.makeText(this, "Authentication error.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
+        String url = UPDATE_STATUS_URL + incident.getId() + "/update-status";
 
-        markEnRouteButton.setOnClickListener(new View.OnClickListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Toast.makeText(this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        updateStatusUI(newStatus);
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Status updated, but response could not be parsed.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    String errorMessage = "Failed to update status.";
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String body = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                            errorMessage = new JSONObject(body).getString("message");
+                        } catch (Exception e) {}
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                }) {
             @Override
-            public void onClick(View v) {
-                // In a real app, update status in backend
-                detailIncidentStatus.setText("En Route");
-                detailIncidentStatus.setTextColor(ContextCompat.getColor(TeamIncidentDetailActivity.this, android.R.color.holo_orange_dark));// Example color change
-                Toast.makeText(TeamIncidentDetailActivity.this, "Status updated to En Route", Toast.LENGTH_SHORT).show();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("status", newStatus);
+                return params;
             }
-        });
 
-        markResolvedButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // In a real app, update status in backend
-                detailIncidentStatus.setText("Resolved");
-                detailIncidentStatus.setTextColor(ContextCompat.getColor(TeamIncidentDetailActivity.this, android.R.color.holo_green_dark));// Example color change
-                Toast.makeText(TeamIncidentDetailActivity.this, "Status updated to Resolved", Toast.LENGTH_SHORT).show();
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                headers.put("Accept", "application/json");
+                return headers;
             }
-        });
+        };
 
-        viewOnMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // In a real app, launch map with incident location
-                Toast.makeText(TeamIncidentDetailActivity.this, "Opening map to " + detailIncidentLocation.getText(), Toast.LENGTH_SHORT).show();
-                // Example: Intent to open a map app
-                // Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + detailIncidentLocation.getText());
-                // Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                // mapIntent.setPackage("com.google.android.apps.maps");
-                // if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                //     startActivity(mapIntent);
-                // } else {
-                //     Toast.makeText(TeamIncidentDetailActivity.this, "Google Maps app not found.", Toast.LENGTH_SHORT).show();
-                // }
-            }
-        });
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
 
-        backFromDetailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Go back to TeamDashboardActivity
-            }
-        });
+    private void updateStatusUI(String status) {
+        detailIncidentStatus.setText(status);
+        switch (status) {
+            case "En Route":
+                detailIncidentStatus.setTextColor(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
+                break;
+            case "Resolved":
+                detailIncidentStatus.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+                break;
+            default:
+                detailIncidentStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                break;
+        }
     }
 }

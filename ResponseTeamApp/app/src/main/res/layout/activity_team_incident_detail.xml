@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5"
+    android:background="#F0F4F8"
     tools:context=".TeamIncidentDetailActivity">
 
     <LinearLayout
@@ -13,184 +13,132 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Header -->
         <TextView
+            android:id="@+id/detailIncidentType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Incident Details"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="16dp"
+            android:text="Incident Details"
+            android:textColor="#1A237E"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
+        <!-- Incident Info Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_corners_bg"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Incident ID:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#INC001"
-                android:textColor="#333333"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fire"
-                android:textColor="#333333"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_incident_id" android:layout_marginEnd="8dp"/>
+                    <TextView android:id="@+id/detailIncidentId" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#INC000" android:textSize="18sp" android:textColor="#333"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Westlands, Nairobi"
-                android:textColor="#333333"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_location" android:layout_marginEnd="8dp"/>
+                    <TextView android:id="@+id/detailIncidentLocation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Location Name" android:textSize="16sp" android:textColor="#555"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Building fire on 3rd floor, people trapped."
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_time" android:layout_marginEnd="8dp"/>
+                    <TextView android:id="@+id/detailIncidentTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reported Time" android:textSize="16sp" android:textColor="#555"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reported By:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentReporter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Description:" android:textStyle="bold" android:layout_marginTop="8dp" android:textColor="#333"/>
+                <TextView android:id="@+id/detailIncidentDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Details of the incident..." android:textSize="16sp" android:textColor="#555"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reported Time:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2024-01-15 14:30"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Current Status:"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/detailIncidentStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Assigned"
-                android:textColor="#007BFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+        <!-- Reporter and Status Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_reporter" android:layout_marginEnd="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reported By:" android:textSize="16sp" android:textStyle="bold" android:textColor="#333"/>
+                    <TextView android:id="@+id/detailIncidentReporter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bystander Name" android:textSize="16sp" android:textColor="#555" android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_status" android:layout_marginEnd="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Status:" android:textSize="16sp" android:textStyle="bold" android:textColor="#333"/>
+                    <TextView android:id="@+id/detailIncidentStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Assigned" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/colorPrimary" android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <!-- Action Buttons -->
         <Button
             android:id="@+id/markEnRouteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark En Route"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="#FFC107"
+            android:padding="15dp"
+            android:text="Mark En Route"
             android:textColor="#333333"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:padding="15dp"
-            app:cornerRadius="8dp"
-            android:layout_marginBottom="12dp"/>
+            app:cornerRadius="8dp" />
 
         <Button
             android:id="@+id/markResolvedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark Resolved"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="#28A745"
+            android:padding="15dp"
+            android:text="Mark Resolved"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:padding="15dp"
-            app:cornerRadius="8dp"
-            android:layout_marginBottom="12dp"/>
+            app:cornerRadius="8dp" />
 
         <Button
             android:id="@+id/viewOnMapButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View on Map"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="#17A2B8"
+            android:padding="15dp"
+            android:text="View on Map"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:padding="15dp"
-            app:cornerRadius="8dp"
-            android:layout_marginBottom="12dp"/>
+            app:cornerRadius="8dp" />
 
         <Button
             android:id="@+id/backFromDetailButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#6C757D"
+            android:padding="15dp"
             android:text="Back to Dashboard"
-            android:backgroundTint="#6B7280"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:padding="15dp"
             app:cornerRadius="8dp" />
 
     </LinearLayout>

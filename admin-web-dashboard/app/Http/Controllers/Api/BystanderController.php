@@ -86,11 +86,14 @@ class BystanderController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getNotifications(Request $request)
+     public function getNotifications(Request $request)
     {
         $user = $request->user();
+
+        // --- FIXED LOGIC ---
+        // This query now ONLY fetches notifications where the user_id
+        // explicitly matches the logged-in bystander's ID.
         $notifications = Notification::where('user_id', $user->id)
-                                    ->orWhereNull('user_id') // For general broadcasts
                                     ->orderBy('sent_at', 'desc')
                                     ->get();
 

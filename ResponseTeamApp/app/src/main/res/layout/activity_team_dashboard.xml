@@ -1,79 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F0F2F5"
+    android:background="#F0F4F8"
     tools:context=".TeamDashboardActivity">
 
+    <!-- Header Section -->
     <TextView
+        android:id="@+id/dashboardTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Team Dashboard"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Assigned Incidents"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#555555"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Placeholder for a list of assigned incidents -->
-    <ListView
-        android:id="@+id/assignedIncidentsListView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:dividerHeight="10dp"
-        android:divider="@android:color/transparent"
-        android:background="@drawable/rounded_corners_bg"
-        android:padding="8dp"/>
-
-    <TextView
-        android:id="@+id/noAssignedIncidentsText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No incidents currently assigned to your team."
-        android:textColor="#666666"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="24dp"/>
-
-    <Button
-        android:id="@+id/viewProfileButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Team Profile"
-        android:backgroundTint="#6C757D"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="15dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        app:cornerRadius="8dp" />
+        android:text="Team Dashboard"
+        android:textColor="#1A237E"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/logoutButton"
+    <!-- Main Content Scroll View -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:backgroundTint="#DC3545"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="15dp"
-        android:layout_marginTop="12dp"
-        app:cornerRadius="8dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/dashboardTitle"
+        android:layout_marginTop="16dp">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <!-- Grid Layout for Menu Options -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="1"
+                android:padding="14dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_profile"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_team_profile" />
+                        <TextView style="@style/DashboardText" android:text="Team Profile" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_notifications"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_team_notifications" />
+                        <TextView style="@style/DashboardText" android:text="Notifications" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+            <!-- Assigned Incidents Section -->
+            <TextView
+                android:id="@+id/assignedIncidentsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Assigned Incidents"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/assignedIncidentsListView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:dividerHeight="8dp"
+                android:divider="@android:color/transparent"/>
+
+            <TextView
+                android:id="@+id/noAssignedIncidentsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="No incidents currently assigned to your team."
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- Logout Button (Moved Here) -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#DC3545"
+                android:padding="15dp"
+                android:text="Logout"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

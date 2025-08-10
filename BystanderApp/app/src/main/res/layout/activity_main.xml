@@ -1,11 +1,10 @@
-<!-- res/layout/activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#F0F2F5"
+    android:background="#F0F4F8"
     tools:context=".MainActivity">
 
     <!-- Header Section -->
@@ -13,141 +12,132 @@
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Welcome, Bystander!"
-        android:textColor="#333333"
-        android:textSize="24sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="27dp"
+        android:text="User Home"
+        android:textColor="#1A237E"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#6B7280"
-        android:text="Logout"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="8dp" />
-
-    <TextView
-        android:id="@+id/taglineText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/welcomeText"
-        android:layout_marginTop="8dp"
-        android:text="Your quick action can save lives."
-        android:textColor="#666666"
-        android:textSize="16sp" />
-
+    <!-- Main Content Scroll View -->
     <ScrollView
-        android:id="@+id/buttonsScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/taglineText"
-        android:layout_marginTop="24dp">
+        android:layout_height="match_parent"
+        android:layout_below="@id/welcomeText"
+        android:layout_marginTop="16dp">
+
         <LinearLayout
-            android:id="@+id/featureButtonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
-            <!-- All your feature buttons go here -->
-            <Button
-                android:id="@+id/reportIncidentButton"
+            android:paddingBottom="16dp">
+
+            <!-- Grid Layout for Menu Options -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#EF4444"
-                android:padding="15dp"
-                android:text="Report New Incident"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="12dp"/>
-            <Button
-                android:id="@+id/myReportsButton"
-                android:layout_width="match_parent"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:padding="14dp">
+
+                <!-- Card Views for each menu item -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_report_incident"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_report_incident" />
+                        <TextView style="@style/DashboardText" android:text="Report Incident" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_my_reports"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_my_reports" />
+                        <TextView style="@style/DashboardText" android:text="My Reports" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_notifications"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_notifications" />
+                        <TextView style="@style/DashboardText" android:text="Notifications" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_map"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_map" />
+                        <TextView style="@style/DashboardText" android:text="View Map" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_first_aid"
+                    style="@style/DashboardGridCard">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@drawable/ic_first_aid" />
+                        <TextView style="@style/DashboardText" android:text="First Aid Guides" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+            <!-- Recent Incidents Section -->
+            <TextView
+                android:id="@+id/recentIncidentsTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#007BFF"
-                android:padding="15dp"
-                android:text="My Submitted Reports"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="12dp"/>
-            <Button
-                android:id="@+id/notificationsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FFC107"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Recent Incidents"
                 android:textColor="#333333"
-                android:padding="15dp"
-                android:text="Notifications"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="12dp"/>
-            <Button
-                android:id="@+id/mapButton"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/recentIncidentsListView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:dividerHeight="8dp"
+                android:divider="@android:color/transparent"/>
+
+            <TextView
+                android:id="@+id/noRecentIncidentsText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#17A2B8"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="No recent incidents to show."
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- Logout Button (Moved to bottom) -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#DC3545"
                 android:padding="15dp"
-                android:text="View Nearby Incidents Map"
+                android:text="Logout"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="12dp"/>
-            <Button
-                android:id="@+id/firstAidButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#28A745"
-                android:padding="15dp"
-                android:text="First Aid Information"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="8dp"
-                android:layout_marginBottom="12dp"/>
+                app:cornerRadius="8dp" />
+
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/recentIncidentsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonsScrollView"
-        android:layout_marginTop="24dp"
-        android:text="Recent Incidents Near You"
-        android:textColor="#333333"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <!-- UPDATED: Replaced TextView with a ListView -->
-    <ListView
-        android:id="@+id/recentIncidentsListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/recentIncidentsTitle"
-        android:layout_marginTop="8dp"
-        android:dividerHeight="8dp"
-        android:divider="@android:color/transparent"/>
-
-    <TextView
-        android:id="@+id/noRecentIncidentsText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recentIncidentsTitle"
-        android:layout_marginTop="16dp"
-        android:padding="16dp"
-        android:text="No recent incidents to display. Stay safe!"
-        android:textColor="#555555"
-        android:textSize="16sp"
-        android:visibility="gone"/>
 
 </RelativeLayout>
